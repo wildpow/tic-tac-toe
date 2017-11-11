@@ -7,13 +7,14 @@ export class GameSlot extends WritableComponent {
         super('game-slot');
 
         this.element.setAttribute('style', "height: 60px; width: 60px; background-color: grey; display: inline-block; " +
-            "board: 1px solid black; margin: 5px; font-size: large; color: black; line-height: 60px" +
-            "text-aglign: center; cursor: pointer");
+        "border: 1px solid black; margin: 5px; font-size: large; color: black; line-height: 60px;" +
+        "text-align: center; cursor: pointer");
         
         this.element.setAttribute('slot-row',slot.row);
         this.element.setAttribute('slot-column',slot.column);
+        this.element.textContent = "-";
     }
-    set testContent(slot) {
+    set textContent(slot) {
         super.textContent = slot.symbol;
         this.element.style.backgroundColor = 'white';
     }

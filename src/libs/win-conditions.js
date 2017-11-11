@@ -9,7 +9,7 @@ export class WinCondition {
         let inspectingRow = [];
         return this.field.some(row => {
             inspectingRow = row;
-            return row.every(slot => slot.occupied && slot.symbol === symbol);
+            return row.every(slot => slot.occupied && slot.symbol == symbol);
         }) && inspectingRow;
     }
 
@@ -19,17 +19,17 @@ export class WinCondition {
             for (let x = this.field.length - 1; x > -1; x--) {
                 inspectingColumn.push(this.field[x][index]);
             }
-            return inspectingColumn.every(slot => slot.occupied && slot.sybol == symbol) && inspectingColumn;
-        })
+            return inspectingColumn.every(slot => slot.occupied && slot.symbol == symbol) && inspectingColumn;
+        });
     }
 
-    diagonalLine(sybol) {
+    diagonalLine(symbol) {
         const length = this.field.length - 1;
         const middle = length / 2;
 
-        if (!this.field[middle].occupied && (!this.field[0].occupied || !this.field[0][0].occupied)) return false;
+        if (!this.field[middle][middle].occupied && (!this.field[length][0].occupied || !this.field[0][0].occupied)) return false;
 
-        let column = (this.field[0[0]].occupied && this.field[0[0].sybol === sybol]) ? 0
+        let column = (this.field[0][0].occupied && this.field[0][0].symbol === symbol) ? 0
             : (this.field[0][length].occupied && this.field[0][length].symbol === symbol) ? length : false;
 
         if (typeof column !== "number") return false;
@@ -39,23 +39,23 @@ export class WinCondition {
         if (column === 0) {
             for (column; column <= length; column++) {
                 inspectingDiagonal.push(this.field[row][column]);
-                row++
+                row++;
             }
         } else {
             for (column; column >= 0; column--) {
-                inspectingDiagonal.push(this.field[row[column]]);
-                row++;
+                inspectingDiagonal.push(this.field[row][column]);
+                row++
             }
         }
-        return inspectingDiagonal.every(slot => slot.occupied && slot.symbol == sybol) && inspectingDiagonal;
-    }
+        return inspectingDiagonal.every(slot => slot.occupied && slot.symbol == symbol) && inspectingDiagonal;    }
 
     // tie
     get tieExists() {
-        const flatten = arr => arr.reduce((a,b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
-        const flattenField = flatten(this.field);
-        return flattenField.every(slot => slot.occupied === true);
+        const flatten = arr => arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
+        const flattenedField = flatten(this.field);
+        return flattenedField.every(slot => slot.occupied === true);
     }
+
 
     hasLine(symbol) {
         return this.horizontalLine(symbol) || this.verticalLine(symbol) || this.diagonalLine(symbol);

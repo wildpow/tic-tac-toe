@@ -293,15 +293,16 @@ var GameSlot = exports.GameSlot = function (_WritableComponent) {
 
         var _this = _possibleConstructorReturn(this, (GameSlot.__proto__ || Object.getPrototypeOf(GameSlot)).call(this, 'game-slot'));
 
-        _this.element.setAttribute('style', "height: 60px; width: 60px; background-color: grey; display: inline-block; " + "board: 1px solid black; margin: 5px; font-size: large; color: black; line-height: 60px" + "text-aglign: center; cursor: pointer");
+        _this.element.setAttribute('style', "height: 60px; width: 60px; background-color: grey; display: inline-block; " + "border: 1px solid black; margin: 5px; font-size: large; color: black; line-height: 60px;" + "text-align: center; cursor: pointer");
 
         _this.element.setAttribute('slot-row', slot.row);
         _this.element.setAttribute('slot-column', slot.column);
+        _this.element.textContent = "-";
         return _this;
     }
 
     _createClass(GameSlot, [{
-        key: 'testContent',
+        key: 'textContent',
         set: function set(slot) {
             _set(GameSlot.prototype.__proto__ || Object.getPrototypeOf(GameSlot.prototype), 'textContent', slot.symbol, this);
             this.element.style.backgroundColor = 'white';
@@ -521,7 +522,7 @@ var TurnInformation = exports.TurnInformation = function (_SimpleComponent) {
 
         _this.currentTurn = new _currentTurn.CurrentTurn();
         _this.symbol = new _playSymbol.PlaySybol();
-        _this.element.setAttribute('style', "text-transform: uppercase; font-size: 30px; height: 40px; display: block; font-family: Monospace");
+        _this.element.setAttribute('style', "text-transform: uppercase; font-size: 30px; height: 40px; display: block; font-family: Monospace;");
 
         _this.element.appendChild(_this.currentTurn.element);
         _this.element.appendChild(_this.symbol.element);
@@ -805,7 +806,7 @@ var WinCondition = exports.WinCondition = function () {
             return this.field.some(function (row) {
                 inspectingRow = row;
                 return row.every(function (slot) {
-                    return slot.occupied && slot.symbol === symbol;
+                    return slot.occupied && slot.symbol == symbol;
                 });
             }) && inspectingRow;
         }
@@ -820,19 +821,19 @@ var WinCondition = exports.WinCondition = function () {
                     inspectingColumn.push(_this.field[x][index]);
                 }
                 return inspectingColumn.every(function (slot) {
-                    return slot.occupied && slot.sybol == symbol;
+                    return slot.occupied && slot.symbol == symbol;
                 }) && inspectingColumn;
             });
         }
     }, {
         key: "diagonalLine",
-        value: function diagonalLine(sybol) {
+        value: function diagonalLine(symbol) {
             var length = this.field.length - 1;
             var middle = length / 2;
 
-            if (!this.field[middle].occupied && (!this.field[0].occupied || !this.field[0][0].occupied)) return false;
+            if (!this.field[middle][middle].occupied && (!this.field[length][0].occupied || !this.field[0][0].occupied)) return false;
 
-            var column = this.field[0[0]].occupied && this.field[0[0].sybol === sybol] ? 0 : this.field[0][length].occupied && this.field[0][length].symbol === symbol ? length : false;
+            var column = this.field[0][0].occupied && this.field[0][0].symbol === symbol ? 0 : this.field[0][length].occupied && this.field[0][length].symbol === symbol ? length : false;
 
             if (typeof column !== "number") return false;
 
@@ -845,12 +846,12 @@ var WinCondition = exports.WinCondition = function () {
                 }
             } else {
                 for (column; column >= 0; column--) {
-                    inspectingDiagonal.push(this.field[row[column]]);
+                    inspectingDiagonal.push(this.field[row][column]);
                     row++;
                 }
             }
             return inspectingDiagonal.every(function (slot) {
-                return slot.occupied && slot.symbol == sybol;
+                return slot.occupied && slot.symbol == symbol;
             }) && inspectingDiagonal;
         }
 
@@ -869,8 +870,8 @@ var WinCondition = exports.WinCondition = function () {
                     return a.concat(Array.isArray(b) ? flatten(b) : b);
                 }, []);
             };
-            var flattenField = flatten(this.field);
-            return flattenField.every(function (slot) {
+            var flattenedField = flatten(this.field);
+            return flattenedField.every(function (slot) {
                 return slot.occupied === true;
             });
         }
