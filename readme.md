@@ -1,6 +1,6 @@
 ## Tic-Tac-Toe ES6
 
-I went through this tutorial to get better at understanding ES6 and see some work flow with [Babel)[https://babeljs.io/].
+I went through this tutorial to get better at understanding ES6 and see some work flow with [Babel](https://babeljs.io).
 If you go through this tutorial and copy everything by hand like I did. There are some errors if the import filepaths
 that have been fixed in the [github repo](https://github.com/pluralsight/guides/blob/master/published/front-end-javascript/tictactoe-with-native-javascript-es6/article.md)
 
